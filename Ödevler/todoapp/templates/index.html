@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Todo App</title>
+    <style>
+        .completed {
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Todo List</h1>
+        <form action="/add" method="POST">
+            <div class="form-group">
+                <input type="text" name="content" placeholder="Yeni görev ekle">
+            </div>
+            <button type="submit">Ekle</button>
+        </form>
+        <ul>
+            {% for todo in todos %}
+                <li class="{% if todo.completed %}completed{% endif %}">
+                    <span>{{ todo.content }}</span>
+                    <form action="/delete/{{ todo.id }}" method="POST" style="display: inline;">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit">Sil</button>
+                    </form>
+                    <form action="/update/{{ todo.id }}" method="POST" style="display: inline;">
+                        <input type="hidden" name="_method" value="PUT">
+                        <button type="submit" style="text-decoration: none;">{% if todo.completed %}Tamamlanmadı{% else %}Tamamlandı{% endif %}</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
